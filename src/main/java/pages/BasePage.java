@@ -4,10 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import utils.Constants;
-import utils.DriverUtils;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BasePage {
     /**
@@ -22,19 +21,19 @@ public class BasePage {
      */
 
     protected WebElement searchInput() {
-        return DriverUtils.getDriver().findElement(_searchInput);
+        return Constants.DRIVER.findElement(_searchInput);
     }
 
     protected WebElement mainResult() {
-        return DriverUtils.getDriver().findElement(_mainResult);
+        return Constants.DRIVER.findElement(_mainResult);
     }
 
     protected List<WebElement> videosSection() {
-        return DriverUtils.getDriver().findElements(_videosSection);
+        return Constants.DRIVER.findElements(_videosSection);
     }
 
     public void navigateToGoogle() {
-        DriverUtils.navigate(Constants.GOOGLE_URL);
+        Constants.DRIVER.get(Constants.GOOGLE_URL);
     }
 
     public void openFistVideo() {
@@ -55,11 +54,9 @@ public class BasePage {
     }
 
     public List<String> listVideosText() {
-        List<String> stringList = new ArrayList<>();
-        for (WebElement element : videosSection()) {
-            stringList.add(element.getText());
-        }
-        return stringList;
+        return videosSection().stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
     }
 
     public boolean isVideoText(String query) {
