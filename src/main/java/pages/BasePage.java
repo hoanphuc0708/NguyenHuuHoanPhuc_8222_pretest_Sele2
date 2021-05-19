@@ -4,10 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import utils.Constants;
-import utils.DriverUtils;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class BasePage {
     /**
@@ -16,29 +16,48 @@ public class BasePage {
     private final By _searchInput = By.cssSelector("[name='q']");
     private final By _mainResult = By.xpath("//div[@class=\"liYKde g VjDLd\"]//h2[@data-attrid=\"title\"]/span");
     private final By _videosSection = By.xpath("//div[@class=\"ULSxyf\"]//div[@class=\"CwxNSe\"]/div");
+    private final By _playButton = By.xpath("//button[@class=\"ytp-play-button ytp-button\"]");
+    private final By _videoTitle = By.xpath("//h1[@class=\"title style-scope ytd-video-primary-info-renderer\"]");
+
 
     /**
      * This is place create common Web elements
      */
 
-    protected WebElement searchInput() {
-        return DriverUtils.getDriver().findElement(_searchInput);
+    private WebElement searchInput() {
+        return Constants.DRIVER.findElement(_searchInput);
     }
 
-    protected WebElement mainResult() {
-        return DriverUtils.getDriver().findElement(_mainResult);
+    private WebElement mainResult() {
+        return Constants.DRIVER.findElement(_mainResult);
     }
 
-    protected List<WebElement> videosSection() {
-        return DriverUtils.getDriver().findElements(_videosSection);
+    private List<WebElement> videosSection() {
+        return Constants.DRIVER.findElements(_videosSection);
     }
+
+    private WebElement playButton() {
+        return Constants.DRIVER.findElement(_playButton);
+    }
+
+    private WebElement videoTitle() {
+        return Constants.DRIVER.findElement(_videoTitle);
+    }
+
+    /**
+     * This is place create function
+     */
 
     public void navigateToGoogle() {
-        DriverUtils.navigate(Constants.GOOGLE_URL);
+        Constants.DRIVER.get(Constants.GOOGLE_URL);
     }
 
     public void openFistVideo() {
         videosSection().get(0).click();
+    }
+
+    public void clickPlayButton() {
+        playButton().click();
     }
 
     public void inputSearchInput() {
@@ -55,16 +74,20 @@ public class BasePage {
     }
 
     public List<String> listVideosText() {
-        List<String> stringList = new ArrayList<>();
-        for (WebElement element : videosSection()) {
-            stringList.add(element.getText());
-        }
-        return stringList;
+        return videosSection().stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
     }
 
     public boolean isVideoText(String query) {
-        List<String> listVideosText = listVideosText();
-        return listVideosText.stream().anyMatch(str -> str.trim().contains(query));
+        return listVideosText().stream().anyMatch(str -> str.trim().contains(query));
     }
 
+    public boolean isVideoPlay() {
+        return playButton().getAttribute("title").contains("Pause");
+    }
+
+    public String getVideoTitle(){
+        return videoTitle().getText();
+    }
 }
