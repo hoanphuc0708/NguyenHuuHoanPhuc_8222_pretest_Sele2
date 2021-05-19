@@ -33,21 +33,22 @@ public class MyStepdefs implements En {
         });
 
         When("I play the video", () -> {
+            if (!basePage.isVideoPlay()) {
+                basePage.clickPlayButton();
+            }
         });
 
-        When("I pause after {int} seconds", (Integer arg0) -> {
+        When("I pause after {int} seconds", (Integer second) -> {
             Thread.sleep(10000);
         });
 
         Then("The video title is same to Google result", () -> {
-
+            Assert.assertEquals("âjajh", basePage.getVideoTitle());
         });
 
         Then("The video is played or paused accordingly", () -> {
 
         });
-
-
 
 
     }
