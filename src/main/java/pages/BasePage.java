@@ -6,12 +6,12 @@ import org.openqa.selenium.WebElement;
 import utils.Constants;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class BasePage {
+
     /**
-     * Element locators of the common web elements' locator
+     * Element locators of the web elements' locator
      **/
     private final By _searchInput = By.cssSelector("[name='q']");
     private final By _mainResult = By.xpath("//div[@class=\"liYKde g VjDLd\"]//h2[@data-attrid=\"title\"]/span");
@@ -19,9 +19,8 @@ public class BasePage {
     private final By _playButton = By.xpath("//button[@class=\"ytp-play-button ytp-button\"]");
     private final By _videoTitle = By.xpath("//h1[@class=\"title style-scope ytd-video-primary-info-renderer\"]");
 
-
     /**
-     * This is place create common Web elements
+     * This is place create Web elements
      */
 
     private WebElement searchInput() {
@@ -70,7 +69,7 @@ public class BasePage {
     }
 
     public String getSearchInputText() {
-        return searchInput().getAttribute("value");
+        return searchInput().getAttribute("value").toLowerCase();
     }
 
     public List<String> listVideosText() {
@@ -78,6 +77,11 @@ public class BasePage {
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
     }
+
+    public String getVideoTitle(){
+        return videoTitle().getText();
+    }
+
 
     public boolean isVideoText(String query) {
         return listVideosText().stream().anyMatch(str -> str.trim().contains(query));
@@ -87,7 +91,4 @@ public class BasePage {
         return playButton().getAttribute("title").contains("Pause");
     }
 
-    public String getVideoTitle(){
-        return videoTitle().getText();
-    }
 }
