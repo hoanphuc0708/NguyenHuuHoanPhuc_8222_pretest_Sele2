@@ -15,7 +15,7 @@ public class BasePage {
      **/
     private final By _searchInput = By.cssSelector("[name='q']");
     private final By _mainResult = By.xpath("//div[@class=\"liYKde g VjDLd\"]//h2[@data-attrid=\"title\"]/span");
-    private final By _videos = By.xpath("//div[@class=\"ULSxyf\"]//div[@class=\"CwxNSe\"]/div");
+    private final By _videosSection = By.xpath("//div[@class=\"ULSxyf\"]//div[@class=\"CwxNSe\"]/div");
 
     /**
      * This is place create common Web elements
@@ -29,12 +29,16 @@ public class BasePage {
         return DriverUtils.getDriver().findElement(_mainResult);
     }
 
-    protected List<WebElement> videos() {
-        return DriverUtils.getDriver().findElements(_videos);
+    protected List<WebElement> videosSection() {
+        return DriverUtils.getDriver().findElements(_videosSection);
     }
 
     public void navigateToGoogle() {
         DriverUtils.navigate(Constants.GOOGLE_URL);
+    }
+
+    public void openFistVideo() {
+        videosSection().get(0).click();
     }
 
     public void inputSearchInput() {
@@ -52,7 +56,7 @@ public class BasePage {
 
     public List<String> listVideosText() {
         List<String> stringList = new ArrayList<>();
-        for (WebElement element : videos()) {
+        for (WebElement element : videosSection()) {
             stringList.add(element.getText());
         }
         return stringList;
