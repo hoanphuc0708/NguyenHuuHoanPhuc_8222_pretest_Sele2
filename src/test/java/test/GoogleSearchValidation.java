@@ -9,6 +9,6 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features/google_search_result.feature",
         glue = {""}
 )
-public class PreTestValidation extends CommonValidation {
+public class GoogleSearchValidation extends CommonValidation {
 
 }

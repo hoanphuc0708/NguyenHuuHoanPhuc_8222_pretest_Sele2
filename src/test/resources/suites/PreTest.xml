@@ -4,7 +4,7 @@
     <test name="Parallel" parallel="false">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="test.PreTestValidation"/>
+            <class name="test.GoogleSearchValidation"/>
         </classes>
     </test>
 </suite>

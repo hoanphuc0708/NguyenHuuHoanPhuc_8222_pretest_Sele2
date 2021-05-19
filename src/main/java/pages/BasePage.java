@@ -63,8 +63,7 @@ public class BasePage {
     }
 
     public boolean isVideoText(String query) {
-        List<String> listVideosText = listVideosText();
-        return listVideosText.stream().anyMatch(str -> str.trim().contains(query));
+        return listVideosText().stream().anyMatch(str -> str.trim().contains(query));
     }
 
 }
